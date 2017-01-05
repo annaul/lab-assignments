@@ -15,6 +15,7 @@ function Article (options) {
   this.body = options.body;
 };
 
+
 Article.prototype.toHtml = function() {
   var $newArticle = $('article.template').clone();
   $newArticle.attr('data-category', this.category);
@@ -24,17 +25,14 @@ Article.prototype.toHtml = function() {
   3. article title
   4. article body
   5. publication*/
-  $newArticle.attr('data-author', this.author);
-  $newArticle.attr('data-authorUrl', this.authorUrl);
-  $newArticle.attr('data-title', this.title);
-  $newArticle.attr('data-body', this.body);
-  $newArticle.attr('data-publications', this.publications);
-
+  $newArticle.find('a').text(this.author).attr('href', this.authorUrl);
+  $newArticle.find('h1').text(this.title);
+  $newArticle.find('.article-body').html(this.body);
   $newArticle.find('time[pubdate]').attr('title', this.publishedOn);
   $newArticle.find('time').text('about ' + parseInt((new Date() - new Date(this.publishedOn))/60/60/24/1000) + ' days ago');
-/* DONE?: This cloned article is no longer a template, as it now
+/* DONE: This cloned article is no longer a template, as it now
 has real data attached to it. Remove the class from this new article! */
-  $newArticle.find('class').removeClass('article.template');
+  $newArticle.find('article.template').removeClass('template');
   return $newArticle;
 };
 
